@@ -1,0 +1,16 @@
+<div *ngIf="loading">Loading products...</div>
+<div *ngIf="!loading && products.length === 0">No products available.</div>
+<div *ngIf="!loading && products.length > 0">
+  <h2>Product List</h2>
+  <div class="product-grid">
+    <div *ngFor="let product of products" class="product-card">
+      <img *ngIf="product.imageUrl && product.imageUrl.length > 0" [src]="product.imageUrl[0]" alt="{{ product.name }}" />
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.description }}</p>
+      <p>Price: ${{ product.price }}</p>
+      <p>Stock: {{ product.stock }}</p>
+      <button (click)="viewProduct(product._id)">View Product</button>
+      <button (click)="addToCart(product)">Add to Cart</button>
+    </div>
+  </div>
+</div>

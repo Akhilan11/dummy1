@@ -1,0 +1,17 @@
+<nav class="navbar">
+    <div class="navbar-brand">
+      <a routerLink="/">Patterns</a>
+    </div>
+    <div class="navbar-menu">
+      <ul>
+        <li *ngIf="!(auth.isAuthenticated$ | async)">
+          <button (click)="login()">Login</button>
+        </li>
+        <li *ngIf="auth.isAuthenticated$ | async">
+          <span>Welcome, {{ user?.name }}</span>
+          <button (click)="goToCart()">Cart</button>
+          <button (click)="logout()">Logout</button>
+        </li>
+      </ul>
+    </div>
+</nav>
