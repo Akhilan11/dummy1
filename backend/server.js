@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
 
 // Controller
 const productRoutes = require('./controller/ProductController')
@@ -20,6 +21,9 @@ const app = express();
 
 // Enable CORS for all routes
 app.use(cors()); // Use CORS middleware
+
+app.use(bodyParser.json({ limit: '10mb' })); // Adjust the limit as necessary
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 
 // Connect to Database
