@@ -5,18 +5,18 @@ import { AuthService } from '@auth0/auth0-angular';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  user: any; // You can define a more specific type if needed
+  isDropdownOpen = false; // Control dropdown visibility
 
-  user: any;
+  constructor(public auth: AuthService, private router: Router) {}
 
-  constructor(public auth: AuthService,private router: Router) {}
-
-  ngOnInit() : void {
+  ngOnInit(): void {
     this.auth.user$.subscribe(user => {
-      this.user = user
-    })
+      this.user = user;
+    });
   }
 
   login(): void {
@@ -31,4 +31,19 @@ export class NavbarComponent {
     this.router.navigate(['/cart']); // Navigates to the cart view
   }
 
+  goToUserDashboard(): void {
+    this.router.navigate([`/user/${this.user.sub}`]);
+  }
+
+  goToWishlist(): void {
+    if (this.user) {
+      this.router.navigate(['/wishlist', this.user.sub]); // Pass userId as a parameter
+    } else {
+      console.log('User is not logged in or user information is not available');
+    }
+  }
+
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen; // Toggle dropdown visibility
+  }
 }

@@ -1,0 +1,53 @@
+<!-- Order Summary Section -->
+<h4>Order summary</h4>
+<table>
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of cart.items">
+            <td>{{ item.productId.name }}</td>
+            <td>{{ item.quantity }} x ₹{{ item.productId.price }}</td>
+            <td>₹{{ item.quantity * item.productId.price }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Enter Address to dispatch</h3>
+
+<form (ngSubmit)="onSubmit()">
+    <label>Full Name</label>
+    <input type="text" [(ngModel)]="fullName" name="fullName" required />
+
+    <label>Address Line 1</label>
+    <input type="text" [(ngModel)]="addressLine1" name="addressLine1" required />
+
+    <label>Address Line 2</label>
+    <input type="text" [(ngModel)]="addressLine2" name="addressLine2" />
+
+    <label>City</label>
+    <input type="text" [(ngModel)]="city" name="city" required />
+
+    <label>State</label>
+    <input type="text" [(ngModel)]="state" name="state" required />
+
+    <label>Postal Code</label>
+    <input type="text" [(ngModel)]="postalCode" name="postalCode" required />
+
+    <label>Country</label>
+    <input type="text" [(ngModel)]="country" name="country" required />
+
+    <label>Phone Number</label>
+    <input type="tel" [(ngModel)]="phone" name="phone" required />
+
+    <button type="submit">Save Details</button>
+</form>
+
+
+<h3>
+    {{orderData}}
+</h3>

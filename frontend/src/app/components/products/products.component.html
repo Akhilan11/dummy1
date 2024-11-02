@@ -1,16 +1,35 @@
 <div *ngIf="loading">Loading products...</div>
 <div *ngIf="!loading && products.length === 0">No products available.</div>
-<div *ngIf="!loading && products.length > 0">
-  <h2>Product List</h2>
-  <div class="product-grid">
-    <div *ngFor="let product of products" class="product-card">
-      <img *ngIf="product.imageUrl && product.imageUrl.length > 0" [src]="product.imageUrl[0]" alt="{{ product.name }}" />
-      <h3>{{ product.name }}</h3>
-      <p>{{ product.description }}</p>
-      <p>Price: ${{ product.price }}</p>
-      <p>Stock: {{ product.stock }}</p>
-      <button (click)="viewProduct(product._id)">View Product</button>
-      <button (click)="addToCart(product)">Add to Cart</button>
-    </div>
-  </div>
+<div *ngIf="!loading && products.length > 0">    
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of products">
+                <!-- Product Image -->
+                <td>
+                    <img
+                        [src]="'https://cdn-media.powerlook.in/catalog/product/3/1/31227221.jpg?aio=w-640'"
+                        alt="{{ product.name }}" 
+                        style="width: 100px; height: auto; object-fit: cover;"
+                    />
+                </td>
+                <!-- Product Details -->
+                <td>{{ product.name }}</td>
+                <td>₹{{ product.price }}</td>
+                <!-- Add to Cart Button -->
+                <td>
+                    <button (click)="addToCart(product); $event.stopPropagation()">Add to Cart</button>
+                    <button (click)="addToWishlist(product._id); $event.stopPropagation()">Add to wishlist</button>
+                    <button (click)="viewProduct(product._id); $event.stopPropagation()">View Product</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

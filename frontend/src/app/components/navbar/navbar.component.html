@@ -1,17 +1,32 @@
-<nav class="navbar">
-    <div class="navbar-brand">
+<nav>
+    <div>
       <a routerLink="/">Patterns</a>
+      <button>
+        Menu
+      </button>
+      <div id="navbarNav">
+        <ul>
+          <li *ngIf="auth.isAuthenticated$ | async">
+            <button (click)="goToCart()">Cart</button>
+            <button (click)="goToWishlist()">Wishlist</button>
+          </li>
+          <li *ngIf="auth.isAuthenticated$ | async">
+            <span>Welcome, {{ user?.name }}</span>
+            <h6>Welcome, {{ user?.sub }}</h6>
+            <ul id="dropdownMenu">
+              <li>
+                <a (click)="goToUserDashboard()">Dashboard</a> <!-- Changed to (click) -->
+              </li>
+              <li>
+                <button (click)="logout()">Logout</button>
+              </li>
+            </ul>
+          </li>
+          <li *ngIf="!(auth.isAuthenticated$ | async)">
+            <button (click)="login()">Login</button>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="navbar-menu">
-      <ul>
-        <li *ngIf="!(auth.isAuthenticated$ | async)">
-          <button (click)="login()">Login</button>
-        </li>
-        <li *ngIf="auth.isAuthenticated$ | async">
-          <span>Welcome, {{ user?.name }}</span>
-          <button (click)="goToCart()">Cart</button>
-          <button (click)="logout()">Logout</button>
-        </li>
-      </ul>
-    </div>
-</nav>
+  </nav>
+  

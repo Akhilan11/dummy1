@@ -30,5 +30,6 @@ export class CartService {
   clearCart(userId: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${userId}`);
   }
-  
+ 
+
 }

@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular'; // Import AuthService from Auth0
 import { CartService } from '../../services/cart/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -9,11 +10,22 @@ import { CartService } from '../../services/cart/cart.service';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  userId: any // Set this based on your authentication logic
+  userId: any; // Set this based on your authentication logic
   cart: any = { items: [] };
   loading: boolean = true;
 
-  constructor(private cartService: CartService, private auth: AuthService) {} // Inject AuthService
+  fullName: string = '';
+  addressLine1: string = '';
+  addressLine2: string = '';
+  city: string = '';
+  state: string = '';
+  postalCode: string = '';
+  country: string = '';
+  phone: string = '';
+
+  displayModal: boolean = false;
+
+  constructor(private cartService: CartService, private auth: AuthService,private router: Router) {} // Inject AuthService
 
   ngOnInit(): void {
     // Fetch user ID from Auth0
@@ -91,8 +103,41 @@ export class CartComponent implements OnInit {
 
   // Method to calculate the total purchase amount
   getTotalPurchase(): number {
-    return this.cart.items.reduce((total: number, item: any) => {
-      return total + item.productId.price * item.quantity;
-    }, 0);
+    return this.cart?.items?.reduce((total: number, item: any) => {
+      return total + (item?.productId?.price || 0) * (item?.quantity || 0);
+    }, 0) || 0;
+  }
+
+  confirmOrder() {
+    // Handle the order confirmation logic here
+    alert("Order confirmed!");
+  }
+
+  openModal() {
+    this.displayModal = true;  // Set displayModal to true to show modal
+  }
+  
+  onCloseHandled() {
+    this.displayModal = false;  // Set displayModal to false to hide modal
+  }
+
+  onSubmit() {
+    // Handle form submission, e.g., send data to the backend
+    console.log("Form submitted:", {
+      userId: this.userId,
+      fullName: this.fullName,
+      addressLine1: this.addressLine1,
+      addressLine2: this.addressLine2,
+      city: this.city,
+      state: this.state,
+      postalCode: this.postalCode,
+      country: this.country,
+      phone: this.phone
+    });
+    alert("Details saved successfully!");
+  }
+
+  goToOrders() {
+    this.router.navigate([`/orders/${this.userId}`]);
   }
 }

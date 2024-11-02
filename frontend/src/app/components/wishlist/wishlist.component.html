@@ -1,0 +1,19 @@
+<div class="container mt-5">
+    <h1>My Wishlist</h1>
+  
+    <div *ngIf="loading">
+      <p>Loading wishlist...</p>
+    </div>
+  
+    <div *ngIf="!loading && wishlist.length === 0">
+      <p>Your wishlist is empty.</p>
+    </div>
+  
+    <ul *ngIf="!loading && wishlist.length > 0" >
+      <li *ngFor="let item of wishlist"  >
+        <span>{{ item.productId.name }}</span>
+        <button (click)="removeFromWishlist(item.productId._id)">Remove</button>
+      </li>
+    </ul>
+  </div>
+  

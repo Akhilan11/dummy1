@@ -1,0 +1,39 @@
+<div *ngIf="loading" class="loading">
+    <p>Loading your orders...</p>
+</div>
+
+<div *ngIf="!loading && orders.length === 0">
+    <p>No orders found.</p>
+</div>
+
+<div *ngIf="!loading">
+    <h2>Hey {{ userId ? userId.name : 'User' }}</h2> <!-- Assuming userId has a name property -->
+</div>
+
+<div *ngIf="!loading && orders.length > 0">
+    <h2>Your Orders</h2>
+    <div *ngFor="let order of orders" class="order">
+        <p><strong>Order ID:</strong> {{ order._id }}</p>
+        <p><strong>Status:</strong> {{ order.status }}</p>
+        <p><strong>Order Date:</strong> {{ order.createdAt | date:'short' }}</p>
+        <p><strong>Total Amount:</strong> ${{ order.totalAmount | number: '1.2-2' }}</p>
+
+        <h4>Items</h4>
+        <ul>
+            <li *ngFor="let item of order.items">
+                {{ item.productId?.name }} - Quantity: {{ item.quantity }} - Price: ${{ item.price | number: '1.2-2' }}
+            </li>
+        </ul>
+
+        <h4>Shipping Address</h4>
+        <div *ngIf="order.address">
+            <p>{{ order.address?.fullName }}</p>
+            <p>{{ order.address?.addressLine1 }}, {{ order.address?.addressLine2 }}</p>
+            <p>{{ order.address?.city }}, {{ order.address?.state }} {{ order.address?.postalCode }}</p>
+            <p>{{ order.address?.country }}</p>
+            <p><strong>Phone:</strong> {{ order.address?.phone }}</p>
+        </div>
+
+        <hr />
+    </div>
+</div>

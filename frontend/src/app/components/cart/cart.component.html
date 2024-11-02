@@ -1,22 +1,63 @@
-<!-- src/app/cart/cart.component.html -->
-<div *ngIf="loading">Loading cart...</div>
-<div *ngIf="!loading && cart.items.length === 0">Your cart is empty.</div>
-<div *ngIf="!loading && cart.items.length > 0">
-  <h2>Your Cart</h2>
-  <ul>
-    <li *ngFor="let item of cart.items">
-      <div>
-        <h3>{{ item.productId.name }} - ${{ item.productId.price }}</h3>
-        <button (click)="decreaseQuantity(item.productId._id, item.quantity)">-</button>
-        <span>{{ item.quantity }}</span>
-        <button (click)="increaseQuantity(item.productId._id, item.quantity)">+</button>
-        <button (click)="removeItem(item.productId._id)">Remove</button>
-      </div>
-    </li>
-  </ul>  
-  <h3>Total purchase : ${{ getTotalPurchase() }}</h3>
+<div class="container mt-5">
+    <!-- Loading State -->
+    <div *ngIf="loading">
+        <p>Loading cart...</p>
+    </div>
+  
+    <!-- Empty Cart Message -->
+    <div *ngIf="!loading && cart.items.length === 0">
+        <p>Your cart is empty.</p>
+    </div>
+  
+    <!-- Cart Items Section -->
+    <div *ngIf="!loading && cart.items.length > 0">
+        <h1>Shopping Cart</h1>
+        <p>{{ cart.items.length }} item(s)</p>
 
-  <button (click)="clearCart()">Clear Cart</button>
+        <!-- Cart Items List -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Size</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of cart.items">
+                    <!-- Product Details -->
+                    <td>
+                        <img src="https://cdn-media.powerlook.in/catalog/product/5/1/51152421.jpg?aio=w-640" 
+                             alt="{{ item.productId.name }}" 
+                             style="width: 50px; height: 50px;">
+                        {{ item.productId.name }} - ${{ item.productId.price }}
+                    </td>
+                    
+                    <td>{{ item.size }}</td>
+
+                    <!-- Quantity Controls -->
+                    <td>
+                        <button (click)="decreaseQuantity(item.productId._id, item.quantity)">-</button>
+                        {{ item.quantity }}
+                        <button (click)="increaseQuantity(item.productId._id, item.quantity)">+</button>
+                    </td>
+                    
+                    <!-- Remove Button -->
+                    <td>
+                        <button (click)="removeItem(item.productId._id)">Remove</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Total Purchase Section -->
+        <div>
+            <h4>Total: ${{ getTotalPurchase() }}</h4>
+            <button (click)="goToOrders()">Proceed to checkout</button>
+        </div>
+        
+    </div>
 </div>
 
 

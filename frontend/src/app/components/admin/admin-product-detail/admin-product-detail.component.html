@@ -1,0 +1,37 @@
+<div *ngIf="product" class="product-container">
+    <div class="product-row">
+        <div class="product-image">
+            <img src="https://cdn-media.powerlook.in/catalog/product/2/1/21098721.jpg?aio=w-1080" alt="Product Image" class="product-img">
+        </div>
+
+        <div class="product-details">
+            <div class="product-body">
+                <h1 class="product-title">{{ product.name }}</h1>
+                <h3 class="product-price">₹{{ product.price | number }}</h3>
+                <p class="product-text">Inclusive of all taxes</p>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="reviews-section">
+        <h4>Reviews:</h4>
+        <div *ngIf="reviews.length > 0; else noReviews">
+            <ul>
+                <li *ngFor="let review of reviews">
+                    <div>
+                        {{ review.comment }} - <strong>{{ review.rating }} stars</strong>
+                        <button *ngIf="review.userId === userId" (click)="deleteReview(review)">Delete</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <ng-template #noReviews>
+            <p>No reviews yet.</p>
+        </ng-template>
+    </div>
+</div>
+
+<div *ngIf="!product" class="loading-message">
+    <p>Loading product details...</p>
+</div>
