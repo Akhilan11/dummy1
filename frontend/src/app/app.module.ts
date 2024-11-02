@@ -18,6 +18,7 @@ import { AdminProductsComponent } from './components/admin/admin-products/admin-
 import { AdminProductDetailComponent } from './components/admin/admin-product-detail/admin-product-detail.component';
 import { AdminOrdersComponent } from './components/admin/admin-orders/admin-orders.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

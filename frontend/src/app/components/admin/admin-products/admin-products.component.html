@@ -1,5 +1,6 @@
 <div *ngIf="loading">Loading products...</div>
 <div *ngIf="!loading && products.length === 0">No products available.</div>
+
 <div *ngIf="!loading && products.length > 0">
   <table>
     <thead>
@@ -12,16 +13,14 @@
     </thead>
     <tbody>
       <tr *ngFor="let product of products">
-        <!-- Product Image -->
         <td>
           <img
-            [src]="product.imageUrl || 'https://cdn-media.powerlook.in/catalog/product/3/1/31227221.jpg?aio=w-640'"
-            alt="{{ product.name }}" 
+            [src]="product.imageUrls[0]" 
+            alt="{{ product.name }}"
             style="width: 100px; height: auto; object-fit: cover;"
           />
         </td>
 
-        <!-- Inline Edit Mode -->
         <ng-container *ngIf="isEditing && currentEditProduct && currentEditProduct._id === product._id; else viewMode">
           <td>
             <input [(ngModel)]="currentEditProduct.name" placeholder="Product Name" />
@@ -35,17 +34,71 @@
           </td>
         </ng-container>
 
-        <!-- View Mode -->
         <ng-template #viewMode>
           <td>{{ product.name }}</td>
           <td>₹{{ product.price }}</td>
           <td>
             <button (click)="startEditing(product)">Edit</button>
             <button (click)="deleteProduct(product._id)">Delete</button>
-            <button (click)="viewProduct(product._id)">view product</button>
+            <button (click)="viewProduct(product._id)">View Product</button>
           </td>
         </ng-template>
       </tr>
     </tbody>
   </table>
+
+  <div class="add-product-form">
+    <h2>Add New Product</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div>
+        <label for="name">Product Name:</label>
+        <input type="text" id="name" [(ngModel)]="product.name" name="name" required />
+      </div>
+
+      <div>
+        <label for="description">Description:</label>
+        <textarea id="description" [(ngModel)]="product.description" name="description" required></textarea>
+      </div>
+
+      <div>
+        <label for="price">Price:</label>
+        <input type="number" id="price" [(ngModel)]="product.price" name="price" required />
+      </div>
+
+      <div>
+        <label for="category">Category:</label>
+        <input type="text" id="category" [(ngModel)]="product.category" name="category" required />
+      </div>
+
+      <div>
+        <label for="stock">Stock:</label>
+        <input type="number" id="stock" [(ngModel)]="product.stock" name="stock" required />
+      </div>
+
+      <div>
+        <label for="gender">Gender:</label>
+        <select id="gender" [(ngModel)]="product.gender" name="gender" required>
+          <option value="Men">Men</option>
+          <option value="Women">Women</option>
+          <option value="Unisex">Unisex</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="imageFiles">Upload Images (max 5):</label>
+        <input type="file" id="imageFiles" (change)="onFileSelected($event)" accept="image/*" multiple />
+      </div>
+
+      <div *ngIf="product.imageUrls.length > 0">
+        <h3>Image Previews:</h3>
+        <div style="display: flex; flex-wrap: wrap;">
+          <div *ngFor="let imageUrl of product.imageUrls" style="margin: 5px;">
+            <img [src]="imageUrl" alt="Product Image" style="width: 100px; height: 100px; object-fit: cover;" />
+          </div>
+        </div>
+      </div>
+
+      <button type="submit">Add Product</button>
+    </form>
+  </div>
 </div>
